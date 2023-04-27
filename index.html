@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>Chatbot Demo</title>
+    </head>
+    <body>
+        <h1>Welcome to the Chatbot Demo</h1>
+        <form method="post" action="/chat">
+            <input type="text" name="prompt" id="prompt" placeholder="Ask a question...">
+            <input type="submit" value="Send">
+        </form>
+        <div id="response"></div>
+        <script>
+            // Send form data to server and display response
+            const form = document.querySelector('form');
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const prompt = document.querySelector('#prompt').value;
+                const responseDiv = document.querySelector('#response');
+                const response = await fetch('/chat', {
+                    method: 'POST',
+                    body: new FormData(form)
+                }).then(response => response.json());
+                responseDiv.innerHTML += '<p>You: ' + prompt + '</p>';
+                responseDiv.innerHTML += '<p>Bot: ' + response['response'] + '</p>';
+                document.querySelector('#prompt').value = '';
+            });
+        </script>
+    </body>
+</html>
+'''
